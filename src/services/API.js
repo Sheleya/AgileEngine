@@ -1,11 +1,37 @@
 // @flow
-const API_KEY = '23567b218376f79d9415' // other valid API keys: '760b5fb497225856222a', '0e2a751704a65685eefc'
-const API_ENDPOINT = 'http://195.39.233.28:8035'
+import axios from "axios";
+import { AsyncStorage } from "react-native";
 
-export async function getPictures (page: number = 1): Array<Object> {
-  // http://195.39.233.28:8035/images?page=xxx
+const API_KEY = "23567b218376f79d9415"; // other valid API keys: '760b5fb497225856222a', '0e2a751704a65685eefc'
+const API_ENDPOINT = "http://195.39.233.28:8035";
+
+export async function getPictures(page: number): Array<Object> {
+  let q = page > 1 ? `?page=${page}` : "";
+  const token = await AsyncStorage.getItem("token");
+  return axios({
+    method: "get",
+    url: `${API_ENDPOINT}/images${q}`,
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
 }
 
-export async function getPictureDetails (id: number): Object {
-  // http://195.39.233.28:8035/images/id
+export async function getPictureDetails(id: number): Object {
+  const token = await AsyncStorage.getItem("token");
+  return axios({
+    method: "get",
+    url: `${API_ENDPOINT}/images/${id}`,
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+}
+
+export async function getToken(): Object {
+  return axios({
+    method: "post",
+    url: `${API_ENDPOINT}/auth`,
+    data: { apiKey: API_KEY }
+  });
 }

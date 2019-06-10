@@ -1,4 +1,6 @@
-import { AppRegistry } from 'react-native'
-import App from './src/App'
+import { AppRegistry } from "react-native";
+import App from "./src/App";
 
-AppRegistry.registerComponent('AE500pxProject', () => App)
+console.disableYellowBox = true;
+
+AppRegistry.registerComponent("AE500pxProject", () => App);
